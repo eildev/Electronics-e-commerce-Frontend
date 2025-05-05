@@ -12,7 +12,7 @@ const HeaderTwo = ({ category }) => {
   const [logoutUser] = useLogoutUserMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const { compareItems } = useSelector((state) => state.compare);
+  const { compareItems } = useSelector((state) => state.compare);
 
   const filteredCartItems = cartItems.filter((item) =>
     user?.id ? item.user_id === user.id : item.user_id == null
@@ -141,9 +141,8 @@ const HeaderTwo = ({ category }) => {
       </form>
       {/* Mobile Menu */}
       <div
-        className={`mobile-menu scroll-sm d-lg-none d-block ${
-          menuActive && "active"
-        }`}
+        className={`mobile-menu scroll-sm d-lg-none d-block ${menuActive && "active"
+          }`}
       >
         <button
           onClick={() => {
@@ -163,17 +162,15 @@ const HeaderTwo = ({ category }) => {
             <ul className="nav-menu flex-align nav-menu--mobile">
               <li
                 onClick={() => handleMenuClick(0)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 0 ? "d-block" : ""
-                }`}
+                className={`on-hover-item nav-menu__item has-submenu ${activeIndex === 0 ? "d-block" : ""
+                  }`}
               >
                 <Link to="#" className="nav-menu__link">
                   Home
                 </Link>
                 <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 0 ? "open" : ""
-                  }`}
+                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${activeIndex === 0 ? "open" : ""
+                    }`}
                 >
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
@@ -206,17 +203,15 @@ const HeaderTwo = ({ category }) => {
               </li>
               <li
                 onClick={() => handleMenuClick(1)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 1 ? "d-block" : ""
-                }`}
+                className={`on-hover-item nav-menu__item has-submenu ${activeIndex === 1 ? "d-block" : ""
+                  }`}
               >
                 <Link to="#" className="nav-menu__link">
                   Shop
                 </Link>
                 <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 1 ? "open" : ""
-                  }`}
+                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${activeIndex === 1 ? "open" : ""
+                    }`}
                 >
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
@@ -249,9 +244,8 @@ const HeaderTwo = ({ category }) => {
               </li>
               <li
                 onClick={() => handleMenuClick(2)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 2 ? "d-block" : ""
-                }`}
+                className={`on-hover-item nav-menu__item has-submenu ${activeIndex === 2 ? "d-block" : ""
+                  }`}
               >
                 <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
                   New
@@ -260,9 +254,8 @@ const HeaderTwo = ({ category }) => {
                   Pages
                 </Link>
                 <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 2 ? "open" : ""
-                  }`}
+                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${activeIndex === 2 ? "open" : ""
+                    }`}
                 >
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
@@ -313,9 +306,8 @@ const HeaderTwo = ({ category }) => {
               </li>
               <li
                 onClick={() => handleMenuClick(3)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 3 ? "d-block" : ""
-                }`}
+                className={`on-hover-item nav-menu__item has-submenu ${activeIndex === 3 ? "d-block" : ""
+                  }`}
               >
                 <span className="badge-notification bg-tertiary-600 text-white text-sm py-2 px-8 rounded-4">
                   New
@@ -324,9 +316,8 @@ const HeaderTwo = ({ category }) => {
                   Vendors
                 </Link>
                 <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 3 ? "open" : ""
-                  }`}
+                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${activeIndex === 3 ? "open" : ""
+                    }`}
                 >
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
@@ -368,17 +359,15 @@ const HeaderTwo = ({ category }) => {
               </li>
               <li
                 onClick={() => handleMenuClick(4)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 4 ? "d-block" : ""
-                }`}
+                className={`on-hover-item nav-menu__item has-submenu ${activeIndex === 4 ? "d-block" : ""
+                  }`}
               >
                 <Link to="#" className="nav-menu__link">
                   Blog
                 </Link>
                 <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 4 ? "open" : ""
-                  }`}
+                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${activeIndex === 4 ? "open" : ""
+                    }`}
                 >
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
@@ -654,45 +643,44 @@ const HeaderTwo = ({ category }) => {
                   </span>
                 </button>
                 <div className="on-hover-item">
-                    <button
-                      onClick={handleUserDropdownToggle}
-                      className={`flex-align flex-column ${token && user?.name ? "gap-10" : "gap-3"} item-hover-two`}
-                    >
-                      <span className="text-2xl text-white d-flex position-relative item-hover__text">
-                        {token && user?.name ?  <i className="ph ph-user" /> : <Link to="/account"> <i className="ph ph-user text-white" /></Link>}
-                   
-                      </span>
-                      <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                        {token && user?.name ? `Hi, ${user?.name}` : <Link to="/account" className="text-white">Login</Link> }
-                      </span>
-                    </button>
-                    {token && user?.name && (
-                      <ul
-                        className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                          userDropdownOpen ? "open" : ""
+                  <button
+                    onClick={handleUserDropdownToggle}
+                    className={`flex-align flex-column ${token && user?.name ? "gap-10" : "gap-3"} item-hover-two`}
+                  >
+                    <span className="text-2xl text-white d-flex position-relative item-hover__text">
+                      {token && user?.name ? <i className="ph ph-user" /> : <Link to="/account"> <i className="ph ph-user text-white" /></Link>}
+
+                    </span>
+                    <span className="text-md text-white item-hover__text d-none d-lg-flex">
+                      {token && user?.name ? `Hi, ${user?.name}` : <Link to="/account" className="text-white">Login</Link>}
+                    </span>
+                  </button>
+                  {token && user?.name && (
+                    <ul
+                      className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${userDropdownOpen ? "open" : ""
                         }`}
-                        style={{ right: 0, width: "150px" }}
-                      >
-                        <li className="common-dropdown__item nav-submenu__item">
-                          <Link
-                            to="/user-details"
-                            className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                            onClick={() => setUserDropdownOpen(false)}
-                          >
-                            User Details
-                          </Link>
-                        </li>
-                        <li className="common-dropdown__item nav-submenu__item">
-                          <button
-                            onClick={handleLogout}
-                            className="common-dropdown__link nav-submenu__link hover-bg-neutral-100 w-100 text-start"
-                          >
-                            Logout
-                          </button>
-                        </li>
-                      </ul>
-                    )}
-                  </div>
+                      style={{ right: 0, width: "150px" }}
+                    >
+                      <li className="common-dropdown__item nav-submenu__item">
+                        <Link
+                          to="/user-details"
+                          className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                          onClick={() => setUserDropdownOpen(false)}
+                        >
+                          User Details
+                        </Link>
+                      </li>
+                      <li className="common-dropdown__item nav-submenu__item">
+                        <button
+                          onClick={handleLogout}
+                          className="common-dropdown__link nav-submenu__link hover-bg-neutral-100 w-100 text-start"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  )}
+                </div>
                 <Link
                   to="/wishlist"
                   className="flex-align flex-column gap-8 item-hover-two"
@@ -742,18 +730,16 @@ const HeaderTwo = ({ category }) => {
       </header>
       {/* Header Two */}
       <header
-        className={`header bg-white border-bottom border-gray-100 ${
-          scroll && "fixed-header"
-        }`}
+        className={`header bg-white border-bottom border-gray-100 ${scroll && "fixed-header"
+          }`}
       >
         <div className="container container-lg">
           <nav className="header-inner d-flex justify-content-between gap-8">
             <div className="flex-align menu-category-wrapper">
               {/* Category Dropdown */}
               <div
-                className={`category-two ${
-                  category === false ? "d-block" : "d-none"
-                } `}
+                className={`category-two ${category === false ? "d-block" : "d-none"
+                  } `}
               >
                 <button
                   onClick={handleCategoryToggle}
@@ -769,9 +755,8 @@ const HeaderTwo = ({ category }) => {
                   </span>
                 </button>
                 <div
-                  className={`responsive-dropdown cat common-dropdown d-lg-none d-block nav-submenu p-0 submenus-submenu-wrapper shadow-none border border-gray-100 ${
-                    activeCategory && "active"
-                  }`}
+                  className={`responsive-dropdown cat common-dropdown d-lg-none d-block nav-submenu p-0 submenus-submenu-wrapper shadow-none border border-gray-100 ${activeCategory && "active"
+                    }`}
                 >
                   <button
                     onClick={() => {
@@ -791,9 +776,8 @@ const HeaderTwo = ({ category }) => {
                   <ul className="scroll-sm p-0 py-8 overflow-y-auto">
                     <li
                       onClick={() => handleCatClick(0)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 0 ? "active" : ""
-                      }`}
+                      className={`has-submenus-submenu ${activeIndexCat === 0 ? "active" : ""
+                        }`}
                     >
                       <Link
                         onClick={() => setActiveIndexCat(null)}
@@ -806,9 +790,8 @@ const HeaderTwo = ({ category }) => {
                         </span>
                       </Link>
                       <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 0 ? "open" : ""
-                        }`}
+                        className={`submenus-submenu py-16 ${activeIndexCat === 0 ? "open" : ""
+                          }`}
                       >
                         <h6 className="text-lg px-16 submenus-submenu__title">
                           Cell Phone
@@ -840,9 +823,8 @@ const HeaderTwo = ({ category }) => {
                 </div>
               </div>
               <div
-                className={`category main on-hover-item bg-main-600 text-white ${
-                  category === true ? "d-block" : "d-none"
-                }`}
+                className={`category main on-hover-item bg-main-600 text-white ${category === true ? "d-block" : "d-none"
+                  }`}
               >
                 <button
                   type="button"

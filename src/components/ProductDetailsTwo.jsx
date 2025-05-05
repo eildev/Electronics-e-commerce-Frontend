@@ -554,7 +554,7 @@ const ProductDetailsTwo = ({ item: data }) => {
               <button
                 onClick={handleAddToCompare}
                 className="btn btn-outline-main rounded-8 py-16 fw-normal mt-16 w-100 flex-center gap-8"
-                disabled={compareItems.some((item) => item.id === data.id) || compareItems.length >= 4}
+                disabled={compareItems.some((item) => item?.id === data?.id) || compareItems.length >= 4}
               >
                 <i className="ph ph-scales text-lg" />
                 Add to Compare
