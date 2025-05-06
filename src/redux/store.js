@@ -22,6 +22,8 @@ import compareReducer from './features/slice/compareSlice';
 import wishlistReducer from './features/slice/wishlistSlice';
 import orderHistoryApi from './features/api/orderHistoryApi';
 import orderGetApi from './features/api/orderGetApi';
+import blogApi from './features/api/blogApi';
+import blogCategoryApi from './features/api/blogCategoryApi';
 
 const store = configureStore({
     reducer: {
@@ -51,6 +53,8 @@ const store = configureStore({
         [brandApi.reducerPath]: brandApi.reducer,
         [orderGetApi.reducerPath]: orderGetApi.reducer,
         [orderHistoryApi.reducerPath]: orderHistoryApi.reducer,
+        [blogCategoryApi.reducerPath]: orderHistoryApi.reducer,
+        [blogApi.reducerPath]: orderHistoryApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -70,6 +74,8 @@ const store = configureStore({
             .concat(brandApi.middleware)
             .concat(orderGetApi.middleware)
             .concat(orderHistoryApi.middleware)
+            .concat(blogCategoryApi.middleware)
+            .concat(blogApi.middleware)
 })
 
 export default store;

@@ -6,8 +6,9 @@ import Breadcrumb from "../components/Breadcrumb";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 import ShippingOne from "../components/ShippingOne";
-import BlogDetails from "../components/BlogDetails";
 import ScrollToTop from "react-scroll-to-top";
+import BlogDetails from "../components/Blogs/BlogDetails";
+
 const BlogDetailsPage = () => {
   return (
     <>
