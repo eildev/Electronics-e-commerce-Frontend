@@ -19,6 +19,9 @@ import wishListApi from './features/api/wishListApi';
 import wishlistByUserAPI from './features/api/wishlistByUserAPI';
 import brandApi from './features/api/brandApi';
 import compareReducer from './features/slice/compareSlice';
+import wishlistReducer from './features/slice/wishlistSlice';
+import orderHistoryApi from './features/api/orderHistoryApi';
+import orderGetApi from './features/api/orderGetApi';
 
 const store = configureStore({
     reducer: {
@@ -29,6 +32,7 @@ const store = configureStore({
         filters: filterReducer,
         selectCart: selectCartReducer,
         compare: compareReducer,
+        wishlist: wishlistReducer,
 
 
         [authApi.reducerPath]: authApi.reducer,
@@ -45,6 +49,8 @@ const store = configureStore({
         [wishListApi.reducerPath]: wishListApi.reducer,
         [wishlistByUserAPI.reducerPath]: wishlistByUserAPI.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
+        [orderGetApi.reducerPath]: orderGetApi.reducer,
+        [orderHistoryApi.reducerPath]: orderHistoryApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
@@ -62,6 +68,8 @@ const store = configureStore({
             .concat(wishListApi.middleware)
             .concat(wishlistByUserAPI.middleware)
             .concat(brandApi.middleware)
+            .concat(orderGetApi.middleware)
+            .concat(orderHistoryApi.middleware)
 })
 
 export default store;

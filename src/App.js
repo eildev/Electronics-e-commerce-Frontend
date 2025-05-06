@@ -21,6 +21,9 @@ import BecomeSellerPage from "./pages/BecomeSellerPage";
 import WishlistPage from "./pages/WishlistPage";
 import ProtectedCartRoute from "./Route/ProtectedCartRoute";
 import ComparePage from "./pages/ComparePage";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
+import UserTabs from "./components/UserDashboard/UserTabs";
+import UserDetailsPage from "./pages/UserDetailsPage";
 function App() {
   return (
     <BrowserRouter>
@@ -55,11 +58,14 @@ function App() {
         <Route exact path='/vendor-details' element={<VendorDetailsPage />} />
         <Route exact path='/vendor-two' element={<VendorTwoPage />} />
         <Route exact path='/compare' element={<ComparePage />} />
+        <Route exact path='/user-details' element={<UserDetailsPage></UserDetailsPage>} />
+        <Route exact path='/user-dashboard' element={<UserDashboard></UserDashboard>} />
         <Route
           exact
           path='/vendor-two-details'
           element={<VendorTwoDetailsPage />}
         />
+        <Route path="/user-tabs/:tabId" element={<UserTabs/>} />
       </Routes>
     </BrowserRouter>
   );

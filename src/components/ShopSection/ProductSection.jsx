@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/features/slice/cartSlice';
+import { setWishlistItems, addToWishlist, removeFromWishlist } from '../../redux/features/slice/wishlistSlice';
 import { useAddToWishlistMutation, useGetWishlistByUserIdQuery } from '../../redux/features/api/wishlistByUserAPI';
 import toast from 'react-hot-toast';
 import { Rating, Star } from '@smastrom/react-rating';
@@ -22,20 +23,42 @@ const ProductSection = ({
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const { user } = useSelector((state) => state.auth);
-  const [addToWishlist] = useAddToWishlistMutation();
-
-  // Fetch wishlist for the logged-in user
-  const { data: wishlistResponse, isLoading: wishlistLoading, error: wishlistError } = useGetWishlistByUserIdQuery(user?.id, {
-    skip: !user?.id, // Skip query if user is not logged in
+  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+  const [addToWishlistMutation] = useAddToWishlistMutation();
+  
+  const {
+    data,
+    error,
+    isLoading : wishlistLoad,
+  } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id,
   });
 
-  // Extract wishlist array (handle array or object with data property)
-  const wishlistData = Array.isArray(wishlistResponse) ? wishlistResponse : wishlistResponse?.data || [];
 
-  // Debugging: Log wishlistData structure (remove in production)
-  console.log('wishlistData:', wishlistData);
+  const wishlist = data?.wishlist || [];
 
-  // Calculate final price after applying coupon
+
+
+  const { data: wishlistResponse, isLoading: wishlistLoading, error: wishlistError, refetch } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id,
+  });
+
+
+  const wishlistData = useMemo(() => Array.isArray(wishlistResponse) ? wishlistResponse : wishlistResponse?.data || [], [wishlistResponse]);
+
+
+
+
+  useEffect(() => {
+    if (wishlistData.length === 0) return;
+    const currentWishlistIds = wishlistItems.map(w => w.variant_id).sort();
+    const newWishlistIds = wishlistData.map(w => w.variant_id).sort();
+    if (JSON.stringify(currentWishlistIds) !== JSON.stringify(newWishlistIds)) {
+      dispatch(setWishlistItems(wishlistData));
+
+    }
+  }, [wishlistData, wishlistItems, dispatch]);
+
   const calculateFinalPrice = (variant) => {
     const regularPrice = parseFloat(variant?.regular_price);
     const coupon = variant?.product_variant_promotion?.coupon;
@@ -54,29 +77,25 @@ const ProductSection = ({
 
     let finalPrice = regularPrice;
     if (coupon.discount_type === 'percentage') {
-      const discountAmount = (regularPrice * parseFloat(coupon.discount_value)) / 100;
-      finalPrice = regularPrice - discountAmount;
+      finalPrice = regularPrice * (1 - parseFloat(coupon.discount_value) / 100);
     } else if (coupon.discount_type === 'fixed') {
       finalPrice = regularPrice - parseFloat(coupon.discount_value);
     }
 
-    return Math.max(finalPrice, 0);
+    return Math.max(finalPrice, 0).toFixed(2);
   };
 
-  // Add to cart
+
   const handleAddToCart = (eItem) => {
     const stockAvailable = eItem?.product_stock?.StockQuantity > 0;
     const filteredCartItems = cartItems.filter((item) =>
       user?.id ? item.user_id === user.id : item.user_id === null
     );
     const matchedItem = filteredCartItems.find((item) => item.id === eItem?.id);
-    const stockLimit =
-      matchedItem?.product_stock?.StockQuantity ||
-      eItem?.product_stock?.StockQuantity ||
-      0;
+    const stockLimit = matchedItem?.product_stock?.StockQuantity || eItem?.product_stock?.StockQuantity || 0;
     const totalRequested = (matchedItem?.quantity || 0) + 1;
 
-    if (totalRequested > stockLimit) {
+    if (!stockAvailable || totalRequested > stockLimit) {
       toast.error('Cannot add more than available stock!');
       return;
     }
@@ -93,45 +112,42 @@ const ProductSection = ({
     toast.success('Added to Cart');
   };
 
-  // Add to wishlist
-  const handleAddToWishlist = async (item) => {
+
+  const handleWishlistAdd = async (item) => {
     if (!user) {
-      toast.error('Please login to add items to your wishlist');
+      toast.error('Please login to manage your wishlist');
       return;
     }
 
-    // Debugging: Log item.id and wishlistData before checking
-    console.log('Attempting to add to wishlist. Item ID:', item.id, 'Wishlist Data:', wishlistData);
 
-    // Check if the product is already in the wishlist
-    const isAlreadyInWishlist = Array.isArray(wishlistData) && wishlistData.some((wishlistItem) => {
-      const isMatch = wishlistItem.variant_id === item.id;
-      console.log('Checking wishlist item:', wishlistItem, 'against item.id:', item.id, 'Match:', isMatch);
-      return isMatch;
-    });
+    const isInWishlist = wishlist?.some(w => w.variant_id == item.id);
+    // console.log(`Adding wishlist for item ${item.id}. isInWishlist: ${isInWishlist}`);
 
-    if (isAlreadyInWishlist) {
-      toast.error('This product is already in your wishlist');
+    if (isInWishlist) {
+      toast.error('Item already in wishlist');
       return;
     }
 
     try {
-      const wishlistDataPayload = {
+      const payload = {
         user_id: user.id,
-        product_id: item.product?.id,
+        product_id: item.product?.id || item.id,
         variant_id: item.id,
       };
-
-      console.log('Sending to wishlist API:', wishlistDataPayload);
-      await addToWishlist(wishlistDataPayload).unwrap();
+      console.log(item.id);
+      dispatch(addToWishlist({ ...payload, variant_id: item.id }));
+      const response = await addToWishlistMutation(payload).unwrap();
+      // console.log('Add API Response:', response);
+      await refetch();
       toast.success('Added to Wishlist');
     } catch (error) {
-      console.error('Failed to add to wishlist:', error);
+      // console.error('Failed to add to wishlist:', error);
       toast.error('Failed to add to wishlist');
+      dispatch(removeFromWishlist(item.id));
     }
   };
 
-  // Rating styles
+
   const customStyles = {
     itemShapes: Star,
     boxBorderWidth: 0,
@@ -141,7 +157,6 @@ const ProductSection = ({
 
   return (
     <div className="col-lg-9">
-      {/* Top Start */}
       <div className="flex-between gap-16 flex-wrap mb-40">
         <span className="text-gray-900">
           Showing {(currentPage - 1) * itemsPerPage + 1} -{' '}
@@ -193,9 +208,7 @@ const ProductSection = ({
           </button>
         </div>
       </div>
-      {/* Top End */}
 
-      {/* Product List/Grid */}
       <div className={`list-grid-wrapper ${grid && 'list-view'}`}>
         {isLoading || wishlistLoading ? (
           <div className="text-center py-4">
@@ -215,19 +228,14 @@ const ProductSection = ({
             const discountValue = item?.product_variant_promotion?.coupon?.discount_value;
             const discountType = item?.product_variant_promotion?.coupon?.discount_type;
 
-            // Calculate review metrics
             const reviews = item?.review_rating || [];
             const reviewCount = reviews.length;
-            const averageRating =
-              reviews.length > 0
-                ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
-                : 0;
-            const isBestSeller = reviewCount >= 10;
+            const averageRating = reviews.length > 0
+              ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+              : 0;
 
-            // Check if item is in wishlist for UI
-            const isInWishlist = Array.isArray(wishlistData) && wishlistData.some(
-              (wishlistItem) => wishlistItem.variant_id === item.id
-            );
+            const isInWishlist = wishlistItems.some(w => w.variant_id == item.id);
+            // console.log(`Rendering item ${item.id}, isInWishlist: ${isInWishlist}`);
 
             return (
               <div
@@ -247,11 +255,9 @@ const ProductSection = ({
                     alt={item?.variant_name || 'Product Image'}
                     className="w-full h-auto object-contain rounded-8"
                   />
-                  {isBestSeller && (
-                    <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                      Best Sale
-                    </span>
-                  )}
+                  <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
+                    Best Sale
+                  </span>
                   {hasDiscount && discountValue && (
                     <span className="product-card__badge bg-danger-600 px-8 py-4 text-sm text-white position-absolute inset-inline-end-0 inset-block-start-0">
                       Sale {discountValue}{discountType === 'percentage' ? '%' : '$'}
@@ -269,14 +275,21 @@ const ProductSection = ({
                         {item?.variant_name || 'Unnamed Product'}
                       </Link>
                     </h6>
-                    <button
-                      onClick={() => handleAddToWishlist(item)}
-                      className="wish-btn text-2xl text-neutral-600 hover-text-danger-600"
-                      type="button"
-                      disabled={isInWishlist}
-                    >
-                      <i className={`ph-bold ph-heart${isInWishlist ? '-fill' : ''}`} />
-                    </button>
+                    { !(wishlist?.some(w => w.variant_id == item.id)) && (
+                      <button
+                        onClick={() => handleWishlistAdd(item)}
+                        style={{ color: '#6b7280', transition: 'color 0.2s' }}
+                        onMouseOver={(e) => (e.currentTarget.style.color = '#dc3545')}
+                        onMouseOut={(e) => (e.currentTarget.style.color = '#6b7280')}
+                        type="button"
+                        title="Add to wishlist"
+                      >
+                        <i
+                          className="ph-bold ph-heart"
+                          style={{ fontSize: '24px' }}
+                        />
+                      </button>
+                    )}
                   </div>
                   <div className="flex-align mb-20 mt-16 gap-6">
                     {isLoading ? (
@@ -302,8 +315,7 @@ const ProductSection = ({
                       </span>
                     )}
                     <span className="text-heading text-md fw-semibold">
-                      ${finalPrice.toFixed(2)}{' '}
-                      <span className="text-gray-500 fw-normal">/Qty</span>
+                      ${finalPrice} <span className="text-gray-500 fw-normal">/Qty</span>
                     </span>
                   </div>
                   <button
@@ -324,7 +336,6 @@ const ProductSection = ({
         )}
       </div>
 
-      {/* Pagination Start */}
       <ul className="pagination flex-center flex-wrap gap-16 mt-40">
         <li className="page-item">
           <button
@@ -415,7 +426,6 @@ const ProductSection = ({
           </button>
         </li>
       </ul>
-      {/* Pagination End */}
     </div>
   );
 };

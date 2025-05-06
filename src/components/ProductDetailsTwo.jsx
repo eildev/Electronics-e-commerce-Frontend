@@ -11,6 +11,7 @@ import { useReviewInfoMutation } from '../redux/features/api/reviewApi';
 import { useGetReviewInfoQuery } from '../redux/features/api/reviewGetApi';
 import { formatDistanceToNow } from 'date-fns';
 import '@smastrom/react-rating/style.css';
+import { useAddToWishlistMutation, useGetWishlistByUserIdQuery } from '../redux/features/api/wishlistByUserAPI';
 
 const ProductDetailsTwo = ({ item: data }) => {
   const dispatch = useDispatch();
@@ -28,6 +29,20 @@ const ProductDetailsTwo = ({ item: data }) => {
 
   const { data: reviews, isLoading, isError, error } = useGetReviewInfoQuery(data?.id);
   const [postReview, { isLoading: isSubmitting }] = useReviewInfoMutation();
+   const [addToWishlist] = useAddToWishlistMutation();
+
+
+  const { data: wishlistResponse, isLoading: wishlistLoading, error: wishlistError } = useGetWishlistByUserIdQuery(user?.id, {
+    skip: !user?.id, 
+  });
+
+
+
+  const wishlist = wishlistResponse?.wishlist || [];
+
+  
+  const wishlistData = Array.isArray(wishlistResponse) ? wishlistResponse : wishlistResponse?.data || [];
+
 
   useEffect(() => {
     if (reviews?.reviews) {
@@ -57,7 +72,7 @@ const ProductDetailsTwo = ({ item: data }) => {
     setMainImage(data?.variant_image[0]);
   }, [data]);
 
-  // Increment & Decrement
+
   const incrementQuantity = () => {
     if (quantity < data?.product_stock?.StockQuantity) {
       setQuantity(quantity + 1);
@@ -70,7 +85,7 @@ const ProductDetailsTwo = ({ item: data }) => {
     }
   };
 
-  // Slider settings
+  
   const settingsThumbs = {
     dots: false,
     infinite: true,
@@ -91,7 +106,7 @@ const ProductDetailsTwo = ({ item: data }) => {
   const navigate = useNavigate();
   const stockAvailable = data?.product_stock?.StockQuantity > 0;
 
-  // Function to calculate the final price after applying the coupon
+
   const calculateFinalPrice = (variant) => {
     const regularPrice = parseFloat(variant?.regular_price);
     const coupon = variant?.product_variant_promotion?.coupon;
@@ -194,44 +209,41 @@ const ProductDetailsTwo = ({ item: data }) => {
     }
   };
 
-  // Handle add to compare with localStorage sync
+
   const handleAddToCompare = () => {
-    // Validate data
+
     if (!data?.id) {
       toast.error('Invalid product data!');
       return;
     }
 
-    // Check limit
+
     if (compareItems.length >= 4) {
       toast.error('Cannot compare more than 4 products!');
       return;
     }
 
-    // Check for duplicates
+
     if (compareItems.some((item) => item.id === data.id)) {
       toast.error('This product is already in comparison!');
       return;
     }
 
     try {
-      // Dispatch addToCompare action
+
       dispatch(addToCompare(data));
 
-      // Update localStorage with the new compareItems
       const updatedCompareItems = [...compareItems, data];
       localStorage.setItem('compareItems', JSON.stringify(updatedCompareItems));
 
       toast.success('Added to comparison');
-      // Optionally navigate to compare page
-      // navigate('/compare');
+
     } catch (error) {
       console.error('Error saving to localStorage:', error);
       toast.error('Failed to add to comparison');
     }
   };
 
-  // Calculate average rating and distribution
   const calculateFeedback = () => {
     if (!localReviews.length) return { average: 0, distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, total: 0 };
 
@@ -249,7 +261,7 @@ const ProductDetailsTwo = ({ item: data }) => {
 
   const { average, distribution, total } = calculateFeedback();
 
-  // Handle review submission with static update
+
   const handleSubmitReview = async (e) => {
     e.preventDefault();
 
@@ -263,9 +275,9 @@ const ProductDetailsTwo = ({ item: data }) => {
       return;
     }
 
-    // Create static review object
+
     const staticReview = {
-      id: Date.now(), // Temporary ID
+      id: Date.now(), 
       user_id: user.id,
       product_id: data.product.id,
       variant_id: data.id,
@@ -279,17 +291,17 @@ const ProductDetailsTwo = ({ item: data }) => {
       },
     };
 
-    // Update localReviews statically
+ 
     setLocalReviews((prev) => [...prev, staticReview]);
 
-    // Reset form and show success toast
+
     setRating(0);
     setReviewTitle('');
     setReviewText('');
     setReviewError('');
     toast.success('Review submitted successfully!');
 
-    // Submit to backend asynchronously
+
     const reviewData = {
       user_id: user.id,
       product_id: data.product.id,
@@ -318,12 +330,44 @@ const ProductDetailsTwo = ({ item: data }) => {
     inactiveFillColor: '#AFAFAF',
   };
 
-  // Calculate prices for display
+
   const finalPrice = calculateFinalPrice(data);
   const regularPrice = parseFloat(data?.regular_price);
   const hasDiscount = finalPrice < regularPrice;
 
-  console.log(data?.variant_name);
+  const handleAddToWishlist = async (item) => {
+    if (!user) {
+      toast.error('Please login to add items to your wishlist');
+      return;
+    }
+
+
+    const isAlreadyInWishlist = Array.isArray(wishlistData) && wishlistData.some((wishlistItem) => {
+      const isMatch = wishlistItem.variant_id === item.id;
+      console.log('Checking wishlist item:', wishlistItem, 'against item.id:', item.id, 'Match:', isMatch);
+      return isMatch;
+    });
+
+    if (isAlreadyInWishlist) {
+      toast.error('This product is already in your wishlist');
+      return;
+    }
+
+    try {
+      const wishlistDataPayload = {
+        user_id: user.id,
+        product_id: item.product?.id,
+        variant_id: item.id,
+      };
+
+      console.log('Sending to wishlist API:', wishlistDataPayload);
+      await addToWishlist(wishlistDataPayload).unwrap();
+      toast.success('Added to Wishlist');
+    } catch (error) {
+      console.error('Failed to add to wishlist:', error);
+      toast.error('Failed to add to wishlist');
+    }
+  };
 
   return (
     <section className="product-details py-80">
@@ -546,6 +590,8 @@ const ProductDetailsTwo = ({ item: data }) => {
                 Buy Now
               </button>
               <button
+              onClick={() => handleAddToWishlist(data)}
+              disabled={wishlist?.some((item) => item?.variant_id === data?.id)}
                 className="btn btn-outline-main rounded-8 py-16 fw-normal mt-16 w-100 flex-center gap-8"
               >
                 <i className="ph ph-heart text-lg" />
