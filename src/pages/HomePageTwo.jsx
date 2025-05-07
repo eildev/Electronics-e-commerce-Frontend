@@ -1,102 +1,107 @@
-import React from "react";
-import Preloader from "../helper/Preloader";
-import HeaderTwo from "../components/HeaderTwo";
-import BannerTwo from "../components/BannerTwo";
-import PromotionalTwo from "../components/PromotionalTwo";
-import DealsOne from "../components/DealsOne";
-import TopSellingOne from "../components/TopSellingOne";
-import TrendingOne from "../components/TrendingOne";
-import DiscountOne from "../components/DiscountOne";
-import FeaturedOne from "../components/FeaturedOne";
-import BigDealOne from "../components/BigDealOne";
-import TopSellingTwo from "../components/TopSellingTwo";
-import PopularProductsOne from "../components/PopularProductsOne";
-import TopVendorsTwo from "../components/TopVendorsTwo";
-import DaySaleOne from "../components/DaySaleOne";
-import RecentlyViewedOne from "../components/RecentlyViewedOne";
-import BrandTwo from "../components/BrandTwo";
-import ShippingTwo from "../components/ShippingTwo";
-import NewsletterTwo from "../components/NewsletterTwo";
-import FooterTwo from "../components/FooterTwo";
-import BottomFooter from "../components/BottomFooter";
-import ColorInit from "../helper/ColorInit";
-import ScrollToTop from "react-scroll-to-top";
+import React from 'react';
+import Preloader from '../helper/Preloader';
+import HeaderTwo from '../components/HeaderTwo';
+import BannerTwo from '../components/BannerTwo';
+import PromotionalTwo from '../components/PromotionalTwo';
+import DealsOne from '../components/DealsOne';
+import TopSellingOne from '../components/TopSellingOne';
+import TrendingOne from '../components/TrendingOne';
+import DiscountOne from '../components/DiscountOne';
+import FeaturedOne from '../components/FeaturedOne';
+import BigDealOne from '../components/BigDealOne';
+import TopSellingTwo from '../components/TopSellingTwo';
+import PopularProductsOne from '../components/PopularProductsOne';
+import TopVendorsTwo from '../components/TopVendorsTwo';
+import DaySaleOne from '../components/DaySaleOne';
+import RecentlyViewedOne from '../components/RecentlyViewedOne';
+import BrandTwo from '../components/BrandTwo';
+import ShippingTwo from '../components/ShippingTwo';
+import NewsletterTwo from '../components/NewsletterTwo';
+import FooterTwo from '../components/FooterTwo';
+import BottomFooter from '../components/BottomFooter';
+import ColorInit from '../helper/ColorInit';
+import ScrollToTop from 'react-scroll-to-top';
+import { useGetVariantApiQuery } from '../redux/features/api/variantApi';
+
 
 const HomePageTwo = () => {
 
+    const { data: variants, isLoading, error } = useGetVariantApiQuery();
 
-  return (
+    if (error) {
+        console.error('Error fetching variants:', error);
+    }
+    console.log('Fetched Variants:', variants);
 
-    <>
-      {/* ColorInit */}
-      <ColorInit color={true} />
+    return (
+        <>
+            {/* ColorInit */}
+            <ColorInit color={true} />
 
-      {/* ScrollToTop */}
-      <ScrollToTop smooth color="#FA6400" />
+            {/* ScrollToTop */}
+            <ScrollToTop smooth color="#FA6400" />
 
-      {/* Preloader */}
-      <Preloader />
+            {/* Preloader */}
+            {isLoading && <Preloader />}
 
-      {/* HeaderTwo */}
-      <HeaderTwo category={false} />
+            {/* HeaderTwo */}
+            <HeaderTwo category={false} />
 
-      {/* BannerTwo */}
-      <BannerTwo />
+            {/* BannerTwo */}
+            <BannerTwo />
 
-      {/* PromotionalTwo */}
-      <PromotionalTwo />
+            {/* PromotionalTwo */}
+            <PromotionalTwo />
 
-      {/* DealsOne */}
-      <DealsOne />
+            {/* DealsOne */}
+            <DealsOne data={variants?.variant || []} />
 
-      {/* TopSellingOne */}
-      <TopSellingOne />
+            {/* TopSellingOne */}
+            <TopSellingOne data={variants?.variant || []} />
 
-      {/* TrendingOne */}
-      <TrendingOne />
+            {/* TrendingOne */}
+            <TrendingOne data={variants?.variant || []} />
 
-      {/* DiscountOne */}
-      <DiscountOne />
+            {/* DiscountOne */}
+            <DiscountOne data={variants?.variant || []} />
 
-      {/* FeaturedOne */}
-      <FeaturedOne />
+            {/* FeaturedOne */}
+            <FeaturedOne data={variants?.variant || []} />
 
-      {/* BigDealOne */}
-      <BigDealOne />
+            {/* BigDealOne */}
+            <BigDealOne data={variants?.variant || []} />
 
-      {/* TopSellingTwo */}
-      <TopSellingTwo />
+            {/* TopSellingTwo */}
+            <TopSellingTwo data={variants?.variant || []} />
 
-      {/* PopularProductsOne */}
-      <PopularProductsOne />
+            {/* PopularProductsOne */}
+            <PopularProductsOne data={variants?.variant || []} />
 
-      {/* TopVendorsTwo */}
-      <TopVendorsTwo />
+            {/* TopVendorsTwo */}
+            <TopVendorsTwo data={variants?.variant || []} />
 
-      {/* DaySaleOne */}
-      <DaySaleOne />
+            {/* DaySaleOne */}
+            <DaySaleOne data={variants?.variant || []} />
 
-      {/* RecentlyViewedOne */}
-      <RecentlyViewedOne />
+            {/* RecentlyViewedOne */}
+            <RecentlyViewedOne data={variants?.variant || []} />
 
-      {/* BrandTwo */}
-      <BrandTwo />
+            {/* BrandTwo */}
+            <BrandTwo />
 
-      {/* ShippingTwo */}
-      <ShippingTwo />
+            {/* ShippingTwo */}
+            <ShippingTwo />
 
-      {/* NewsletterTwo */}
-      <NewsletterTwo />
+            {/* NewsletterTwo */}
+            <NewsletterTwo />
 
-      {/* FooterTwo */}
-      <FooterTwo />
+            {/* FooterTwo */}
+            <FooterTwo />
 
-      {/* BottomFooter */}
-      <BottomFooter />
-
-
-    </>
-  );
+            {/* BottomFooter */}
+            <BottomFooter />
+        </>
+    );
 };
 
 export default HomePageTwo;

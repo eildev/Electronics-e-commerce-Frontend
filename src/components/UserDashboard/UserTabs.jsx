@@ -9,6 +9,7 @@ import ScrollToTop from 'react-scroll-to-top';
 import WishlistTable from './WishlistTable';
 import EditProfile from './EditProfile';
 import OrdersTable from './OrdersTable';
+import HeaderTwo from '../HeaderTwo';
 
 const UserTabs = () => {
     const { token, user } = useSelector((state) => state.auth);
@@ -103,7 +104,7 @@ const UserTabs = () => {
             <ColorInit color={true} />
             <ScrollToTop smooth color="#fa8232" />
             <Preloader />
-            <HeaderThree category={false} />
+            <HeaderTwo category={true} />
             <Breadcrumb title="User Dashboard" />
 
             <section className="py-5 mt-20">

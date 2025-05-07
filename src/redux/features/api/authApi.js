@@ -8,7 +8,7 @@ const authApi = createApi({
     credentials: "include",
     prepareHeaders: (headers, { getState, endpoint }) => {
       const csrfToken = Cookies.get("XSRF-TOKEN");
-      console.log('CSRF Token:', csrfToken); // Debug
+      console.log('CSRF Token:', csrfToken); 
       if (csrfToken) {
         headers.set("X-CSRF-TOKEN", decodeURIComponent(csrfToken));
       }
@@ -17,7 +17,7 @@ const authApi = createApi({
         headers.set("Authorization", `Bearer ${token}`);
       }
       if (endpoint === "updateUser" && getState().auth.body instanceof FormData) {
-        // Skip Content-Type for FormData
+
       } else {
         headers.set("Content-Type", "application/json");
       }

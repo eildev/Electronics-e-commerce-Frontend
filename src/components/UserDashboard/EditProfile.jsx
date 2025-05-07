@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useGetUserInfoQuery, useUpdateUserMutation } from '../../redux/features/api/authApi';
+import { useGetCsrfTokenQuery, useGetUserInfoQuery, useUpdateUserMutation } from '../../redux/features/api/authApi';
 
 const EditProfile = () => {
     const { token, user } = useSelector((state) => state.auth);
     const userID = user?.id;
+
+    // Fetch CSRF token for Laravel Sanctum
+    useGetCsrfTokenQuery();
+
+    // Fetch user info
     const { data, isLoading } = useGetUserInfoQuery(userID, {
         skip: !userID,
     });
+
+    // Update user mutation
     const [
         updateUser,
         {
@@ -19,37 +26,49 @@ const EditProfile = () => {
         },
     ] = useUpdateUserMutation();
 
+    // Form setup with react-hook-form
     const {
         register,
         handleSubmit,
-        setValue,
         formState: { errors },
         reset,
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            full_name: '',
+            email: '',
+            phone: '',
+            address: '',
+            country: '',
+            region: '',
+            zone: '',
+            postalCode: '',
+        },
+    });
 
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
-    // Update form values when API data is loaded, adding leading zero to phone
+    // Populate form with user data
     useEffect(() => {
         if (data?.user) {
-            const rawPhone = data?.userDetails?.phone_number || "";
+            const rawPhone = data?.userDetails?.phone_number || '';
             const formattedPhone = rawPhone
-                ? String(rawPhone).startsWith("0")
+                ? String(rawPhone).startsWith('0')
                     ? rawPhone
                     : `0${rawPhone}`
-                : "";
+                : '';
 
             const userData = {
-                name: data?.user?.name || "",
-                email: data?.user?.email || "",
-                address: data?.userDetails?.address || "",
-                country: data?.userDetails?.country || "",
-                region: data?.userDetails?.city || "",
-                zone: data?.userDetails?.police_station || "",
-                postalCode: data?.userDetails?.postal_code || "",
+                full_name: data?.user?.name || '',
+                email: data?.user?.email || '',
                 phone: formattedPhone,
+                address: data?.userDetails?.address || '',
+                country: data?.userDetails?.country || '',
+                region: data?.userDetails?.city || '',
+                zone: data?.userDetails?.police_station || '',
+                postalCode: data?.userDetails?.postal_code || '',
             };
+            console.log('Populating form with:', userData); // Debug
             reset(userData);
             if (data.userDetails?.image) {
                 setImagePreview(data.userDetails.image);
@@ -59,6 +78,8 @@ const EditProfile = () => {
 
     // Handle form submission
     const onSubmit = async (formData) => {
+        console.log('Collected Form Data:', formData);
+
         const formPayload = new FormData();
         formPayload.append('full_name', formData.full_name);
         formPayload.append('email', formData.email);
@@ -68,17 +89,25 @@ const EditProfile = () => {
         formPayload.append('city', formData.region);
         formPayload.append('police_station', formData.zone);
         formPayload.append('postal_code', formData.postalCode);
-console.log(formPayload);
-
 
         if (imageFile) {
+            console.log('Appending image:', imageFile.name, imageFile.type); // Debug
             formPayload.append('image', imageFile);
+        } else {
+            console.log('No image file selected');
+        }
+
+        // Debug FormData contents
+        for (const [key, value] of formPayload.entries()) {
+            console.log(`FormData - ${key}: ${value instanceof File ? value.name : value}`);
         }
 
         try {
-            await updateUser({ id: userID, data: formPayload }).unwrap();
+            const response = await updateUser({ id: userID, data: formPayload }).unwrap();
+            console.log('Profile updated successfully:', response);
         } catch (err) {
             console.error('Update failed:', err);
+            console.log('Error details:', err?.status, err?.data);
         }
     };
 
@@ -86,15 +115,18 @@ console.log(formPayload);
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            console.log('Selected file:', file.name, file.type); // Debug
             setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => setImagePreview(reader.result);
             reader.readAsDataURL(file);
+        } else {
+            console.log('No file selected');
         }
     };
 
     return (
-        <section className=" py-40 animate__animated animate__fadeIn">
+        <section className="py-40 animate__animated animate__fadeIn">
             <div className="container container-lg">
                 <div className="mb-40">
                     <h3 className="fw-bold text-gray-900">Edit Your Profile</h3>
@@ -141,12 +173,12 @@ console.log(formPayload);
                                 <div className="col-12">
                                     <input
                                         type="text"
-                                        className={`common-input border-gray-100 ${errors.name ? 'is-invalid' : ''}`}
+                                        className={`common-input border-gray-100 ${errors.full_name ? 'is-invalid' : ''}`}
                                         placeholder="Full Name *"
                                         {...register('full_name', { required: 'Full Name is required' })}
                                     />
-                                    {errors.name && (
-                                        <div className="invalid-feedback">{errors.name.message}</div>
+                                    {errors.full_name && (
+                                        <div className="invalid-feedback">{errors.full_name.message}</div>
                                     )}
                                 </div>
                                 <div className="col-12">
@@ -226,7 +258,7 @@ console.log(formPayload);
                                 <div className="col-12">
                                     <input
                                         type="file"
-                                        className=" border-gray-100"
+                                        className="border-gray-100"
                                         accept="image/*"
                                         onChange={handleImageChange}
                                     />
@@ -277,7 +309,8 @@ console.log(formPayload);
                     font-weight: 500;
                     width: 100%;
                 }
-                .btn-main:hover, .btn-main:focus {
+                .btn-main:hover,
+                .btn-main:focus {
                     background-color: #e66b1e;
                     border-color: #e66b1e;
                 }

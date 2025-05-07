@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
-const FeaturedOne = () => {
+const FeaturedOne = ({ data }) => {
     function SampleNextArrow(props) {
         const { className, onClick } = props;
         return (
@@ -71,7 +71,7 @@ const FeaturedOne = () => {
                             </div>
                             <div className="row gy-4 featured-product-slider">
                                 <Slider {...settings}>
-                                    <div className="col-xxl-6">
+                                    {data?.map(item => <div className="col-xxl-6">
                                         <div className="featured-products__sliders">
                                             <div className="">
                                                 <div className="mt-24 product-card d-flex gap-16 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
@@ -84,9 +84,13 @@ const FeaturedOne = () => {
                                                             Sale 50%{" "}
                                                         </span>
                                                         <img
-                                                            src="assets/images/thumbs/product-two-img2.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
+                                                            src={
+                                                                item?.variant_image?.[0]?.image
+                                                                    ? `http://127.0.0.1:8000/${item.variant_image[0].image}`
+                                                                    : 'assets/images/thumbs/product-two-img1.png'
+                                                            }
+                                                            alt={item?.variant_name || 'Product Image'}
+                                                            className="w-full h-auto object-contain rounded-8"
                                                         />
                                                     </Link>
                                                     <div className="product-card__content my-20 flex-grow-1">
@@ -96,7 +100,7 @@ const FeaturedOne = () => {
                                                                 className="link text-line-2"
                                                                 tabIndex={0}
                                                             >
-                                                                iPhone 15 Pro Warp Charge 30W Power Adapter
+                                                                {item?.variant_name}
                                                             </Link>
                                                         </h6>
                                                         <div className="flex-align gap-6 mb-12">
@@ -148,9 +152,13 @@ const FeaturedOne = () => {
                                                             Best seller
                                                         </span>
                                                         <img
-                                                            src="assets/images/thumbs/product-two-img3.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
+                                                            src={
+                                                                item?.variant_image?.[0]?.image
+                                                                    ? `http://127.0.0.1:8000/${item.variant_image[0].image}`
+                                                                    : 'assets/images/thumbs/product-two-img1.png'
+                                                            }
+                                                            alt={item?.variant_name || 'Product Image'}
+                                                            className="w-full h-auto object-contain rounded-8"
                                                         />
                                                     </Link>
                                                     <div className="product-card__content my-20 flex-grow-1">
@@ -202,271 +210,8 @@ const FeaturedOne = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-xxl-6">
-                                        <div className="featured-products__sliders">
-                                            <div className="">
-                                                <div className="mt-24 product-card d-flex gap-16 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
-                                                    <Link
-                                                        to="/product-details-two"
-                                                        className="product-card__thumb flex-center h-unset rounded-8 bg-gray-50 position-relative w-unset flex-shrink-0 p-24"
-                                                        tabIndex={0}
-                                                    >
-                                                        <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                                                            Best Sale
-                                                        </span>
-                                                        <img
-                                                            src="assets/images/thumbs/product-two-img4.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
-                                                        />
-                                                    </Link>
-                                                    <div className="product-card__content my-20 flex-grow-1">
-                                                        <h6 className="title text-lg fw-semibold mb-12">
-                                                            <Link
-                                                                to="/product-details-two"
-                                                                className="link text-line-2"
-                                                                tabIndex={0}
-                                                            >
-                                                                iPhone 15 Pro Warp Charge 30W Power Adapter
-                                                            </Link>
-                                                        </h6>
-                                                        <div className="flex-align gap-6 mb-12">
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                4.8
-                                                            </span>
-                                                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                                                                <i className="ph-fill ph-star" />
-                                                            </span>
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                (17k)
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex-align gap-4">
-                                                            <span className="text-main-two-600 text-md d-flex">
-                                                                <i className="ph-fill ph-storefront" />
-                                                            </span>
-                                                            <span className="text-gray-500 text-xs">
-                                                                By Lucky Supermarket
-                                                            </span>
-                                                        </div>
-                                                        <div className="product-card__price my-20">
-                                                            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                                                                $28.99
-                                                            </span>
-                                                            <span className="text-heading text-md fw-semibold ">
-                                                                $14.99{" "}
-                                                                <span className="text-gray-500 fw-normal">/Qty</span>{" "}
-                                                            </span>
-                                                        </div>
-                                                        <Link
-                                                            to="/cart"
-                                                            className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
-                                                            tabIndex={0}
-                                                        >
-                                                            Add To Cart <i className="ph ph-shopping-cart" />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="">
-                                                <div className="mt-24 product-card d-flex gap-16 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
-                                                    <Link
-                                                        to="/product-details-two"
-                                                        className="product-card__thumb flex-center h-unset rounded-8 bg-gray-50 position-relative w-unset flex-shrink-0 p-24"
-                                                        tabIndex={0}
-                                                    >
-                                                        <span className="product-card__badge bg-warning-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                                                            New
-                                                        </span>
-                                                        <img
-                                                            src="assets/images/thumbs/product-two-img4.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
-                                                        />
-                                                    </Link>
-                                                    <div className="product-card__content my-20 flex-grow-1">
-                                                        <h6 className="title text-lg fw-semibold mb-12">
-                                                            <Link
-                                                                to="/product-details-two"
-                                                                className="link text-line-2"
-                                                                tabIndex={0}
-                                                            >
-                                                                iPhone 15 Pro Warp Charge 30W Power Adapter
-                                                            </Link>
-                                                        </h6>
-                                                        <div className="flex-align gap-6 mb-12">
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                4.8
-                                                            </span>
-                                                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                                                                <i className="ph-fill ph-star" />
-                                                            </span>
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                (17k)
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex-align gap-4">
-                                                            <span className="text-main-two-600 text-md d-flex">
-                                                                <i className="ph-fill ph-storefront" />
-                                                            </span>
-                                                            <span className="text-gray-500 text-xs">
-                                                                By Lucky Supermarket
-                                                            </span>
-                                                        </div>
-                                                        <div className="product-card__price my-20">
-                                                            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                                                                $28.99
-                                                            </span>
-                                                            <span className="text-heading text-md fw-semibold ">
-                                                                $14.99{" "}
-                                                                <span className="text-gray-500 fw-normal">/Qty</span>{" "}
-                                                            </span>
-                                                        </div>
-                                                        <Link
-                                                            to="/cart"
-                                                            className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
-                                                            tabIndex={0}
-                                                        >
-                                                            Add To Cart <i className="ph ph-shopping-cart" />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-xxl-6">
-                                        <div className="featured-products__sliders">
-                                            <div className="">
-                                                <div className="mt-24 product-card d-flex gap-16 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
-                                                    <Link
-                                                        to="/product-details-two"
-                                                        className="product-card__thumb flex-center h-unset rounded-8 bg-gray-50 position-relative w-unset flex-shrink-0 p-24"
-                                                        tabIndex={0}
-                                                    >
-                                                        <span className="product-card__badge bg-danger-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                                                            Sale 50%{" "}
-                                                        </span>
-                                                        <img
-                                                            src="assets/images/thumbs/product-two-img2.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
-                                                        />
-                                                    </Link>
-                                                    <div className="product-card__content my-20 flex-grow-1">
-                                                        <h6 className="title text-lg fw-semibold mb-12">
-                                                            <Link
-                                                                to="/product-details-two"
-                                                                className="link text-line-2"
-                                                                tabIndex={0}
-                                                            >
-                                                                iPhone 15 Pro Warp Charge 30W Power Adapter
-                                                            </Link>
-                                                        </h6>
-                                                        <div className="flex-align gap-6 mb-12">
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                4.8
-                                                            </span>
-                                                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                                                                <i className="ph-fill ph-star" />
-                                                            </span>
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                (17k)
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex-align gap-4">
-                                                            <span className="text-main-two-600 text-md d-flex">
-                                                                <i className="ph-fill ph-storefront" />
-                                                            </span>
-                                                            <span className="text-gray-500 text-xs">
-                                                                By Lucky Supermarket
-                                                            </span>
-                                                        </div>
-                                                        <div className="product-card__price my-20">
-                                                            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                                                                $28.99
-                                                            </span>
-                                                            <span className="text-heading text-md fw-semibold ">
-                                                                $14.99{" "}
-                                                                <span className="text-gray-500 fw-normal">/Qty</span>{" "}
-                                                            </span>
-                                                        </div>
-                                                        <Link
-                                                            to="/cart"
-                                                            className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
-                                                            tabIndex={0}
-                                                        >
-                                                            Add To Cart <i className="ph ph-shopping-cart" />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="">
-                                                <div className="mt-24 product-card d-flex gap-16 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
-                                                    <Link
-                                                        to="/product-details-two"
-                                                        className="product-card__thumb flex-center h-unset rounded-8 bg-gray-50 position-relative w-unset flex-shrink-0 p-24"
-                                                        tabIndex={0}
-                                                    >
-                                                        <span className="product-card__badge bg-tertiary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                                                            Best seller
-                                                        </span>
-                                                        <img
-                                                            src="assets/images/thumbs/product-two-img3.png"
-                                                            alt=""
-                                                            className="w-auto max-w-unset"
-                                                        />
-                                                    </Link>
-                                                    <div className="product-card__content my-20 flex-grow-1">
-                                                        <h6 className="title text-lg fw-semibold mb-12">
-                                                            <Link
-                                                                to="/product-details-two"
-                                                                className="link text-line-2"
-                                                                tabIndex={0}
-                                                            >
-                                                                iPhone 15 Pro Warp Charge 30W Power Adapter
-                                                            </Link>
-                                                        </h6>
-                                                        <div className="flex-align gap-6 mb-12">
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                4.8
-                                                            </span>
-                                                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                                                                <i className="ph-fill ph-star" />
-                                                            </span>
-                                                            <span className="text-xs fw-medium text-gray-500">
-                                                                (17k)
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex-align gap-4">
-                                                            <span className="text-main-two-600 text-md d-flex">
-                                                                <i className="ph-fill ph-storefront" />
-                                                            </span>
-                                                            <span className="text-gray-500 text-xs">
-                                                                By Lucky Supermarket
-                                                            </span>
-                                                        </div>
-                                                        <div className="product-card__price my-20">
-                                                            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                                                                $28.99
-                                                            </span>
-                                                            <span className="text-heading text-md fw-semibold ">
-                                                                $14.99{" "}
-                                                                <span className="text-gray-500 fw-normal">/Qty</span>{" "}
-                                                            </span>
-                                                        </div>
-                                                        <Link
-                                                            to="/cart"
-                                                            className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
-                                                            tabIndex={0}
-                                                        >
-                                                            Add To Cart <i className="ph ph-shopping-cart" />
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </div>)
+                                    }
                                 </Slider>
                             </div>
                         </div>
