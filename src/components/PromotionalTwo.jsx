@@ -28,11 +28,12 @@ const PromotionalTwo = () => {
                                     </Link>
                                 </div>
                                 <div className="pe-xxl-4">
-                                    <img src="assets/images/thumbs/promo-img1.png" alt="" />
+                                    <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/promo-img1.png" alt="" />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <div className="col-lg-4 col-sm-6">
                         <div className="position-relative rounded-16 overflow-hidden z-1 p-32">
                             <img
@@ -55,7 +56,7 @@ const PromotionalTwo = () => {
                                     </Link>
                                 </div>
                                 <div className="pe-xxl-4">
-                                    <img src="assets/images/thumbs/promo-img2.png" alt="" />
+                                    <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/promo-img2.png" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -82,7 +83,7 @@ const PromotionalTwo = () => {
                                     </Link>
                                 </div>
                                 <div className="pe-xxl-4">
-                                    <img src="assets/images/thumbs/promo-img3.png" alt="" />
+                                    <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/promo-img3.png" alt="" />
                                 </div>
                             </div>
                         </div>

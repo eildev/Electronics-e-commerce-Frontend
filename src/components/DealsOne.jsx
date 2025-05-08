@@ -173,7 +173,7 @@ const DealsOne = ({ data }) => {
                             className="position-absolute inset-block-start-0 inset-block-start-0 w-100 h-100 z-n1 object-fit-cover"
                         />
                         <div className="d-lg-block d-none ps-32 flex-shrink-0">
-                            <img src="assets/images/thumbs/week-deal-img1.png" alt="" />
+                            <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/week-deal-img1.png" alt="" />
                         </div>
                         <div className="deal-week-box__content px-sm-4 d-block w-100 text-center">
                             <h6 className="mb-20">Apple AirPods Max, Over Ear Headphones</h6>
@@ -200,7 +200,7 @@ const DealsOne = ({ data }) => {
                         </div>
                         <div className="d-lg-block d-none flex-shrink-0 pe-xl-5">
                             <div className="me-xxl-5">
-                                <img src="assets/images/thumbs/week-deal-img2.png" alt="" />
+                                <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/week-deal-img2.png" alt="" />
                             </div>
                         </div>
                     </div>

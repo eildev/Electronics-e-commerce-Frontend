@@ -165,7 +165,7 @@ const TopSellingOne = ({ data }) => {
                                     </Link>
                                 </div>
                                 <div className="d-md-block d-none mt-36">
-                                    <img src="assets/images/thumbs/deal-img.png" alt="" />
+                                    <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/deal-img.png" alt="" />
                                 </div>
                             </div>
                         </div>

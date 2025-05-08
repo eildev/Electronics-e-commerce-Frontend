@@ -246,7 +246,7 @@ const FeaturedOne = ({ data }) => {
                                 </Link>
                             </div>
                             <img
-                                src="assets/images/thumbs/featured-product-img.png"
+                                src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/featured-product-img.png"
                                 alt=""
                                 className="d-xxl-inline-flex d-none"
                             />

@@ -30,7 +30,7 @@ const DiscountOne = () => {
                                     </Link>
                                 </div>
                                 <img
-                                    src="assets/images/thumbs/discount-img1.png"
+                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/discount-img1.png"
                                     alt=""
                                     className="d-sm-block d-none"
                                 />
@@ -61,7 +61,7 @@ const DiscountOne = () => {
                                     </Link>
                                 </div>
                                 <img
-                                    src="assets/images/thumbs/discount-img2.png"
+                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/discount-img2.png"
                                     alt=""
                                     className="d-sm-block d-none"
                                 />

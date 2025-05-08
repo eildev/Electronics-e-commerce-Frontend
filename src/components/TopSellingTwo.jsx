@@ -88,7 +88,7 @@ const TopSellingTwo = () => {
                                 </div>
                             </div>
                             <img
-                                src="assets/images/thumbs/recommended-img.png"
+                                src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/recommended-img.png"
                                 alt=""
                                 className="mt-48 d-xxl-block d-none"
                             />
@@ -122,7 +122,7 @@ const TopSellingTwo = () => {
                                                     Best Seller{" "}
                                                 </span>
                                                 <img
-                                                    src="assets/images/thumbs/product-two-img1.png"
+                                                    src="	https://react.marketpro.wowtheme7.com/assets/images/thumbs/product-two-img1.png"
                                                     alt=""
                                                     className="w-auto max-w-unset"
                                                 />
@@ -191,7 +191,7 @@ const TopSellingTwo = () => {
                                                     New
                                                 </span>
                                                 <img
-                                                    src="assets/images/thumbs/product-two-img2.png"
+                                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/product-two-img2.png"
                                                     alt=""
                                                     className="w-auto max-w-unset"
                                                 />
@@ -260,7 +260,7 @@ const TopSellingTwo = () => {
                                                     Sale 50%
                                                 </span>
                                                 <img
-                                                    src="assets/images/thumbs/product-two-img3.png"
+                                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/product-two-img3.png"
                                                     alt=""
                                                     className="w-auto max-w-unset"
                                                 />
@@ -329,7 +329,7 @@ const TopSellingTwo = () => {
                                                     Sold
                                                 </span>
                                                 <img
-                                                    src="assets/images/thumbs/product-two-img4.png"
+                                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/product-two-img4.png"
                                                     alt=""
                                                     className="w-auto max-w-unset"
                                                 />
@@ -398,7 +398,7 @@ const TopSellingTwo = () => {
                                                     New
                                                 </span>
                                                 <img
-                                                    src="assets/images/thumbs/product-two-img2.png"
+                                                    src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/product-two-img5.png"
                                                     alt=""
                                                     className="w-auto max-w-unset"
                                                 />

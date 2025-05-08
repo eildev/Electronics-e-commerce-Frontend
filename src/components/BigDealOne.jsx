@@ -12,7 +12,7 @@ const BigDealOne = () => {
                     />
                     <div className="row gy-4 align-items-center">
                         <div className="col-md-3 text-center d-md-block d-none">
-                            <img src="assets/images/thumbs/big-deal1.png" alt="" />
+                            <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/big-deal1.png" alt="" />
                         </div>
                         <div className="col-md-6 big-deal-box__content text-center">
                             <h4 className="mb-20 text-uppercase">WATCHES BIG DEAL</h4>
@@ -21,7 +21,7 @@ const BigDealOne = () => {
                             </p>
                         </div>
                         <div className="col-md-3 text-center d-md-block d-none">
-                            <img src="assets/images/thumbs/big-deal2.png" alt="" />
+                            <img src="https://react.marketpro.wowtheme7.com/assets/images/thumbs/big-deal2.png" alt="" />
                         </div>
                     </div>
                 </div>

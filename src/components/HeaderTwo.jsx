@@ -156,7 +156,7 @@ const HeaderTwo = ({ category }) => {
         </button>
         <div className="mobile-menu__inner">
           <Link to="/" className="mobile-menu__logo">
-            <img src="assets/images/logo/logo.png" alt="Logo" />
+            <img src="https://react.marketpro.wowtheme7.com/assets/images/logo/logo-two.png" alt="Logo" />
           </Link>
           <div className="mobile-menu__menu">
             <ul className="nav-menu flex-align nav-menu--mobile">
@@ -405,7 +405,7 @@ const HeaderTwo = ({ category }) => {
             {/* Logo */}
             <div className="logo">
               <Link to="/" className="link">
-                <img src="assets/images/logo/logo-two.png" alt="Logo" />
+                <img src="https://react.marketpro.wowtheme7.com/assets/images/logo/logo-two.png" alt="Logo" />
               </Link>
             </div>
             {/* Form Category */}

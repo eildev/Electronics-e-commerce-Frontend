@@ -28,12 +28,15 @@ const Login = ({ onSwitchToRegister }) => {
     try {
       await refetchCsrf();
       let result;
+      console.log('Result:', result);
       try {
         result = await loginUser({
           email: data.email,
           password: data.password,
         }).unwrap();
+        console.log('Login API response:', result);
       } catch (err) {
+        console.log(err);
         if (err?.status === 419 || err?.data?.message === 'CSRF token mismatch') {
           console.log('CSRF token mismatch, retrying...');
           await refetchCsrf();
@@ -41,12 +44,14 @@ const Login = ({ onSwitchToRegister }) => {
             email: data.email,
             password: data.password,
           }).unwrap();
+
+          console.log('Login API response 2:', result.token);
         } else {
           throw err;
         }
       }
 
-      console.log('Login API response:', result);
+      console.log('Login API response 1:', result.token);
       if (result.status === 200 || result.status === 201) {
         dispatch(loginSuccess(result));
         toast.success('Login successful!');

@@ -81,6 +81,7 @@ const EditProfile = () => {
         console.log('Collected Form Data:', formData);
 
         const formPayload = new FormData();
+        console.log(formPayload);
         formPayload.append('full_name', formData.full_name);
         formPayload.append('email', formData.email);
         formPayload.append('phone_number', formData.phone);
@@ -101,9 +102,10 @@ const EditProfile = () => {
         for (const [key, value] of formPayload.entries()) {
             console.log(`FormData - ${key}: ${value instanceof File ? value.name : value}`);
         }
-
+console.log(formData);
+console.log('njfn', formPayload);
         try {
-            const response = await updateUser({ id: userID, data: formPayload }).unwrap();
+            const response = await updateUser({ id: userID, data: formData}).unwrap();
             console.log('Profile updated successfully:', response);
         } catch (err) {
             console.error('Update failed:', err);
